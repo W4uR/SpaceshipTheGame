@@ -5,27 +5,24 @@ using UnityEngine;
 
 public static class LoadSaveSystem
 {
-    public static void Save(string score)
+    const string SCORE_KEY = "score";
+    public static void Save(int scoreVal)
     {
-        StreamWriter sw = new StreamWriter(GetPath());
-        sw.WriteLine(score);
-        sw.Close();
+        PlayerPrefs.SetInt(SCORE_KEY, scoreVal);
     }
 
-    public static string Load()
+    public static int Load()
     {
-        if(File.Exists(GetPath()))
+        if (PlayerPrefs.HasKey(SCORE_KEY) == false)
         {
-            StreamReader sr = new StreamReader(GetPath());
-            string result = sr.ReadLine();
-            sr.Close();
-            return result;
+            int score = 0;
+            if(File.Exists(Application.persistentDataPath + "gamedata.txt"))
+            {
+                score = int.Parse(File.ReadAllText(Application.persistentDataPath + "gamedata.txt"));
+            }
+            PlayerPrefs.SetInt(SCORE_KEY, score);
         }
-        return "0";
+        return PlayerPrefs.GetInt(SCORE_KEY);
     }
 
-    private static string GetPath()
-    {
-        return Application.persistentDataPath + "gamedata.txt";
-    }
 }

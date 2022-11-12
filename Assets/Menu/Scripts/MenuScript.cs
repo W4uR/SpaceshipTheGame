@@ -10,13 +10,7 @@ public class MenuScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        score.text = LoadSaveSystem.Load();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        score.text = LoadSaveSystem.Load().ToString();
     }
 
     public void StartGame()

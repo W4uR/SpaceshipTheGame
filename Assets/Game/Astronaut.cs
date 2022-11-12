@@ -30,6 +30,7 @@ public class Astronaut : MonoBehaviour
     void Update()
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(0f, speed);
+        //transform.Rotate(90f * Time.deltaTime * Vector3.forward);
     }
 
     public double GetRandomNumber(double minimum, double maximum)
@@ -72,13 +73,13 @@ public class Astronaut : MonoBehaviour
 
     private void ShowEndGameDialog()
     {
-        string scoreTmp = ScoreAndHealth.GetComponent<ScoreAndHealth>().score;
+        int scoreTmp = int.Parse(ScoreAndHealth.GetComponent<ScoreAndHealth>().score);
         UIElements.SetActive(false);
         rockAndAstronaut.SetActive(false);
         endGameDialog.SetActive(true);
         ship.SetActive(false);
-        endGameScoreText.text = scoreTmp;
-        if(int.Parse(LoadSaveSystem.Load())<int.Parse(scoreTmp))
+        endGameScoreText.text = scoreTmp.ToString();
+        if(LoadSaveSystem.Load()<scoreTmp)
         {
             LoadSaveSystem.Save(scoreTmp);
         }
