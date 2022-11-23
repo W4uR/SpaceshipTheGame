@@ -5,13 +5,16 @@ using TMPro;
 using System;
 using UnityEditor;
 using Random = UnityEngine.Random;
-using static Unity.Burst.Intrinsics.X86.Avx;
+using UnityEditor.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [Header("UI")]
     [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text scoreText;
+    [SerializeField] GameObject uiElementsPanel;
     [SerializeField] GameOverUIManager gameOverUI;
     [Header("Prefabs")]
     [SerializeField] Faller astronautPrefab;
@@ -23,14 +26,13 @@ public class GameManager : MonoBehaviour
     [Range(0f, 2f)][SerializeField] float minDistance = 1f;
     [Range(1f,3f)][SerializeField] float objectSpeed = 1.75f;
     [SerializeField] private int health;
+    [SerializeField] float SpeedIncrement = 0.05f;
     private int score;
+
     [HideInInspector]
     public bool IsGameOver { get; private set; }
-    public static GameManager Instance;
 
     public float ObjectSpeed { get => objectSpeed; private set => objectSpeed = value; }
-    [SerializeField] float SpeedIncrement = 0.05f;
-
     public int Health
     {
         get { return health; }
@@ -61,15 +63,24 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        objects[0] = Instantiate(astronautPrefab, GetSpawnpoint(), Quaternion.identity, spawnPoint);
-        objects[1] = Instantiate(rockPrefab, GetSpawnpoint(), Quaternion.identity, spawnPoint);
+        objects[0] = Instantiate(astronautPrefab, spawnPoint.position+spawnRadius *.5f * Vector3.right, Quaternion.identity, spawnPoint);
+        objects[1] = Instantiate(rockPrefab, spawnPoint.position + spawnRadius * .5f *Vector3.left, Quaternion.identity, spawnPoint);
+    }
+    private void OnDrawGizmos()
+    {
+        //Show green line where objects can spawn ( Editor only )
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(spawnPoint.position - spawnRadius * Vector3.right, spawnPoint.position + spawnRadius * Vector3.right);
+        //Show minimum required distance for a successful spawn attempt
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(spawnPoint.position, minDistance);
+
     }
 
     public void IncrementScore()
     {
         Score++;
     }
-
     public void Damage()
     {
         Health--;
@@ -78,10 +89,6 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
     }
-
-
-
-
     private Vector3 GetSpawnpoint()
     {
         return Random.Range(-spawnRadius, spawnRadius) * Vector3.right + spawnPoint.position;
@@ -105,26 +112,13 @@ public class GameManager : MonoBehaviour
         } while ((objects[0].transform.position - _spawnPoint).sqrMagnitude <= Math.Pow(minDistance, 2));
         objects[1] = Instantiate(rockPrefab, _spawnPoint, Quaternion.identity, spawnPoint);
     }
-
-    private void OnDrawGizmos()
-    {
-        //Show green line where objects can spawn ( Editor only )
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(spawnPoint.position - spawnRadius * Vector3.right, spawnPoint.position + spawnRadius * Vector3.right);
-        //Show minimum required distance for a successful spawn attempt
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(spawnPoint.position, minDistance);
-
-    }
-
     private void GameOver()
     {
         IsGameOver = true;
         //Show gameover screen
         gameOverUI.gameObject.SetActive(true);
         //Disable gameplay elements
-        healthText.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(false);
+        uiElementsPanel.SetActive(false);
         spawnPoint.gameObject.SetActive(false);
         ship.SetActive(false);
         //Save record..if it is a record

@@ -492,8 +492,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479798
-  m_fontColor: {r: 0.46274513, g: 0.19607845, b: 0.19607845, a: 1}
+    rgba: 4279374378
+  m_fontColor: {r: 0.16299999, g: 0.06906779, b: 0.06906779, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1318,6 +1318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthText: {fileID: 552035206}
   scoreText: {fileID: 686877391}
+  uiElementsPanel: {fileID: 1455938894}
   gameOverUI: {fileID: 1381998267}
   astronautPrefab: {fileID: 5611754139433372809, guid: 1d72727447e2ae84bbe3c0260e56c147, type: 3}
   rockPrefab: {fileID: 2412372221492302022, guid: 529d5a49f66138b4493648e2568963be, type: 3}
@@ -2176,7 +2177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8207547, g: 0.112273075, b: 0.112273075, a: 0.45490196}
+  m_Color: {r: 0.54901963, g: 0.023529395, b: 0.121082835, a: 0.50980395}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3075,8 +3076,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479798
-  m_fontColor: {r: 0.46274513, g: 0.19607845, b: 0.19607845, a: 1}
+    rgba: 4279374378
+  m_fontColor: {r: 0.16299999, g: 0.06906779, b: 0.06906779, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
