@@ -1,23 +1,20 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Xml.Linq;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
-public class Astronaut : Faller
+public class Rock : Faller
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.IncrementScore();
+            GameManager.Instance.Damage();
         }
         if (other.CompareTag("Border") || other.CompareTag("Player"))
         {
-            GameManager.Instance.SpawnAstronaut();
+            GameManager.Instance.SpawnRock();
             Destroy(gameObject);
         }
     }
